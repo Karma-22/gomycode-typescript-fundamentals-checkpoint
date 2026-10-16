@@ -1,0 +1,17 @@
+{
+  "name": "gomycode-typescript-fundamentals-checkpoint",
+  "version": "1.0.0",
+  "description": "GoMyCode Bootcamp - TypeScript 5 Fundamentals Checkpoint (Vehicle Interface, Car Class, Methods, Typing and Compilation)",
+  "author": "Karma-22 (Darius Ange)",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node dist/index.js",
+    "test": "tsc && node --test dist/tests/vehicle.test.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "typescript": "^5.5.4"
+  }
+}

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TypeScript Fundamentals | Vehicle & Car Demo - GoMyCode</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0d14;
+      --bg-card: rgba(22, 30, 49, 0.85);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(59, 130, 246, 0.4);
+      --accent-blue: #3b82f6;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1.5rem;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+    }
+    .container { max-width: 860px; width: 100%; }
+    .header { text-align: center; margin-bottom: 2rem; }
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(59, 130, 246, 0.15);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 0.3rem 0.8rem;
+      border-radius: 9999px;
+      margin-bottom: 0.75rem;
+    }
+    h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+    h1 span { color: var(--accent-blue); }
+    .desc { color: var(--text-secondary); font-size: 0.95rem; }
+
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.75rem;
+      margin-bottom: 1.75rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .card h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+
+    pre code {
+      display: block;
+      background: #060910;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 1.25rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      line-height: 1.6;
+      overflow-x: auto;
+    }
+    .keyword { color: #f43f5e; font-weight: 600; }
+    .type { color: #06b6d4; }
+    .string { color: #34d399; }
+    .number { color: #fbbf24; }
+    .method { color: #60a5fa; }
+
+    .car-simulator {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    @media (max-width: 650px) { .car-simulator { grid-template-columns: 1fr; } }
+
+    .car-display {
+      background: #070b13;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .car-prop { display: flex; justify-content: space-between; font-size: 0.9rem; }
+    .prop-label { color: var(--text-secondary); }
+    .prop-val { font-weight: 700; color: #ffffff; }
+
+    .start-btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+    .start-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+    }
+    .start-btn:active { transform: translateY(0); }
+
+    .console-box {
+      margin-top: 1rem;
+      background: #030508;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.82rem;
+      color: #10b981;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <span class="badge">GoMyCode Bootcamp • TypeScript 5</span>
+      <h1>TypeScript <span>Fundamentals</span></h1>
+      <p class="desc">Interface Vehicle & Implémentation de la classe Car avec typage strict.</p>
+    </header>
+
+    <div class="card">
+      <h2>📜 Code TypeScript Source (src/vehicle.ts)</h2>
+      <pre><code><span class="keyword">export interface</span> <span class="type">Vehicle</span> {
+  make: <span class="type">string</span>;
+  model: <span class="type">string</span>;
+  year: <span class="type">number</span>;
+  <span class="method">start</span>(): <span class="type">void</span>;
+}
+
+<span class="keyword">export class</span> <span class="type">Car</span> <span class="keyword">implements</span> <span class="type">Vehicle</span> {
+  <span class="keyword">constructor</span>(
+    <span class="keyword">public</span> make: <span class="type">string</span>,
+    <span class="keyword">public</span> model: <span class="type">string</span>,
+    <span class="keyword">public</span> year: <span class="type">number</span>
+  ) {}
+
+  <span class="keyword">public</span> <span class="method">start</span>(): <span class="type">void</span> {
+    console.log(<span class="string">"Car engine started"</span>);
+  }
+}</code></pre>
+    </div>
+
+    <div class="card">
+      <h2>🕹️ Simulateur d'Instance</h2>
+      <div class="car-simulator">
+        <div class="car-display">
+          <div class="car-prop">
+            <span class="prop-label">Instance :</span>
+            <span class="prop-val">const myCar: Vehicle = new Car(...)</span>
+          </div>
+          <div class="car-prop">
+            <span class="prop-label">Marque (make) :</span>
+            <span class="prop-val">Toyota</span>
+          </div>
+          <div class="car-prop">
+            <span class="prop-label">Modèle (model) :</span>
+            <span class="prop-val">Corolla</span>
+          </div>
+          <div class="car-prop">
+            <span class="prop-label">Année (year) :</span>
+            <span class="prop-val">2021</span>
+          </div>
+        </div>
+
+        <div>
+          <button type="button" class="start-btn" onclick="triggerStart()">
+            🔑 Démarrer le moteur (myCar.start())
+          </button>
+          <div class="console-box" id="consoleOutput">
+            > Prêt. Cliquez sur le bouton ci-dessus...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    class Car {
+      constructor(make, model, year) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+      }
+      start() {
+        console.log("Car engine started");
+        return "Car engine started";
+      }
+    }
+
+    const myCar = new Car("Toyota", "Corolla", 2021);
+
+    function triggerStart() {
+      const output = myCar.start();
+      const el = document.getElementById('consoleOutput');
+      el.style.color = '#34d399';
+      el.innerHTML = `> Console.log : "<strong>${output}</strong>" 🚗💨`;
+    }
+  </script>
+</body>
+</html>
